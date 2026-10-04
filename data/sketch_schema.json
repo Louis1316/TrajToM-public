@@ -1,0 +1,212 @@
+﻿{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "TrajToM Sketch Schema",
+  "description": "Structured psychological sketch for the TrajToM benchmark. Generated from profile before dialogue; serves as ground-truth annotation for ToM questions.",
+  "type": "object",
+  "required": ["scenario_id", "sketch"],
+  "additionalProperties": false,
+  "properties": {
+    "scenario_id": {
+      "type": "string",
+      "description": "Unique scenario identifier, e.g. s_001"
+    },
+    "sketch": {
+      "type": "object",
+      "required": ["information_asymmetry", "phase_states", "causal_chain", "second_order_states"],
+      "additionalProperties": false,
+      "properties": {
+
+        "information_asymmetry": {
+          "type": "object",
+          "description": "Private knowledge each character holds. All fields are null when information_asymmetry_type is no_asymmetry (except shared_false_assumption, which may still apply).",
+          "required": ["A_knows_but_B_doesnt", "B_knows_but_A_doesnt", "shared_false_assumption"],
+          "additionalProperties": false,
+          "properties": {
+            "A_knows_but_B_doesnt": {
+              "type": ["string", "null"],
+              "description": "Concrete fact A privately holds that B does not know."
+            },
+            "B_knows_but_A_doesnt": {
+              "type": ["string", "null"],
+              "description": "Concrete fact B privately holds that A does not know."
+            },
+            "shared_false_assumption": {
+              "type": ["string", "null"],
+              "description": "A false belief both characters share. May be non-null even when no_asymmetry."
+            }
+          }
+        },
+
+        "phase_states": {
+          "type": "object",
+          "required": ["opening", "development", "key_moment", "closing"],
+          "additionalProperties": false,
+          "properties": {
+            "opening":     { "$ref": "#/definitions/standard_phase" },
+            "development": { "$ref": "#/definitions/standard_phase" },
+            "key_moment":  { "$ref": "#/definitions/key_moment_phase" },
+            "closing":     { "$ref": "#/definitions/standard_phase" }
+          }
+        },
+
+        "causal_chain": {
+          "type": "object",
+          "description": "Three causal statements explaining why states are what they are.",
+          "required": ["chain_1", "chain_2", "chain_3"],
+          "additionalProperties": false,
+          "properties": {
+            "chain_1": {
+              "type": "string",
+              "minLength": 20,
+              "description": "How A's belief or information state causes A's emotion or behavior."
+            },
+            "chain_2": {
+              "type": "string",
+              "minLength": 20,
+              "description": "How B's desire or information gap drives B's behavior toward A."
+            },
+            "chain_3": {
+              "type": "string",
+              "minLength": 20,
+              "description": "How the information asymmetry (or value difference if no_asymmetry) produces a specific misread between A and B."
+            }
+          }
+        },
+
+        "second_order_states": {
+          "type": "object",
+          "description": "What each character thinks about the other's mental state. B_about_A: at least 2 of 3 fields non-null. A_about_B: at least 1 of 2 fields non-null. All misreads must differ from the actual state.",
+          "required": ["B_about_A", "A_about_B"],
+          "additionalProperties": false,
+          "properties": {
+            "B_about_A": {
+              "type": "object",
+              "description": "B's (possibly wrong) beliefs about A's inner states.",
+              "required": ["emotion", "belief", "intention"],
+              "additionalProperties": false,
+              "properties": {
+                "emotion": {
+                  "type": ["string", "null"],
+                  "description": "Format: 'B thinks A feels [X] (actual: [Y]) | triggered by: [Z].' Z = observable behavior/statement that causes the misread."
+                },
+                "belief": {
+                  "type": ["string", "null"],
+                  "description": "Core false-belief field for Type 1 belief_reasoning (order=2). Format: 'B thinks A believes [X] (actual: [Y]) | triggered by: [Z].'"
+                },
+                "intention": {
+                  "type": ["string", "null"],
+                  "description": "Format: 'B thinks A intends [X] (actual: [Y]) | triggered by: [Z].'"
+                }
+              }
+            },
+            "A_about_B": {
+              "type": "object",
+              "description": "A's (possibly wrong) beliefs about B's inner states.",
+              "required": ["belief", "intention"],
+              "additionalProperties": false,
+              "properties": {
+                "belief": {
+                  "type": ["string", "null"],
+                  "description": "Format: 'A thinks B believes [X] (actual: [Y]) | triggered by: [Z].'"
+                },
+                "intention": {
+                  "type": ["string", "null"],
+                  "description": "Format: 'A thinks B intends [X] (actual: [Y]) | triggered by: [Z].'"
+                }
+              }
+            }
+          }
+        }
+
+      }
+    }
+  },
+
+  "definitions": {
+    "character_state": {
+      "type": "object",
+      "required": ["emotion", "belief", "intention", "desire"],
+      "additionalProperties": false,
+      "properties": {
+        "emotion": {
+          "type": "string",
+          "minLength": 10,
+          "description": "Template: '[Name] feels [state] because [brief reason].'"
+        },
+        "belief": {
+          "type": "string",
+          "minLength": 10,
+          "description": "Template: '[Name] believes [proposition].' May be false or partial."
+        },
+        "intention": {
+          "type": "string",
+          "minLength": 10,
+          "description": "Template: '[Name] intends to [action] in order to [goal].'"
+        },
+        "desire": {
+          "type": "string",
+          "minLength": 10,
+          "description": "Template: '[Name] ultimately wants [deep outcome].' Stable across phases by default."
+        }
+      }
+    },
+
+    "standard_phase": {
+      "type": "object",
+      "description": "Psychological states of both characters at one conversation phase.",
+      "required": ["A", "B"],
+      "additionalProperties": false,
+      "properties": {
+        "A": { "$ref": "#/definitions/character_state" },
+        "B": { "$ref": "#/definitions/character_state" }
+      }
+    },
+
+    "shift_entry": {
+      "type": "string",
+      "description": "'from [old state] to [new state]', or 'unchanged'."
+    },
+
+    "character_shifts": {
+      "type": "object",
+      "description": "State shifts for one character at the key moment. emotion/belief/intention are required. desire is optional 鈥?fill only if deep motivation genuinely shifts.",
+      "required": ["emotion", "belief", "intention"],
+      "additionalProperties": false,
+      "properties": {
+        "emotion":   { "$ref": "#/definitions/shift_entry" },
+        "belief":    { "$ref": "#/definitions/shift_entry" },
+        "intention": { "$ref": "#/definitions/shift_entry" },
+        "desire":    { "$ref": "#/definitions/shift_entry" }
+      }
+    },
+
+    "key_moment_phase": {
+      "type": "object",
+      "description": "The turning-point event and the state shifts it causes.",
+      "required": ["trigger", "key_moment_type", "shifts"],
+      "additionalProperties": false,
+      "properties": {
+        "trigger": {
+          "type": "string",
+          "minLength": 10,
+          "description": "The specific statement, event, or realization that causes the shift."
+        },
+        "key_moment_type": {
+          "type": "string",
+          "enum": ["revelation", "confrontation", "realization", "compromise", "exposure", "misread_corrected"],
+          "description": "Structural type of the turning point."
+        },
+        "shifts": {
+          "type": "object",
+          "required": ["A", "B"],
+          "additionalProperties": false,
+          "properties": {
+            "A": { "$ref": "#/definitions/character_shifts" },
+            "B": { "$ref": "#/definitions/character_shifts" }
+          }
+        }
+      }
+    }
+  }
+}
+

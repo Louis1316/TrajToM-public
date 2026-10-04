@@ -1,0 +1,29 @@
+attribute_name,value_range,description
+# ============================================
+# Scenario-Level Attributes (场景级属性)
+# ============================================
+social_scenario_type,"['workplace_professional', 'family_relationship', 'romantic_dating', 'friendship_dynamics', 'emotional_crisis_support', 'social_misunderstanding', 'collaborative_task', 'competitive_conflict', 'values_ethics_dilemma', 'first_meeting_impression']",Type of social scenario (社交场景类型)
+relationship_type,"['roommates', 'close_friends', 'colleagues', 'siblings', 'romantic_partners', 'classmates', 'acquaintances', 'parent_child', 'ex_romantic_partners']",Type of relationship between two people (两人关系类型)
+setting_location,"['shared_apartment', 'office_break_room', 'coffee_shop', 'campus_library', 'park_bench', 'family_home', 'gym', 'car_ride', 'kitchen', 'living_room', 'cafeteria', 'conference_room', 'study_room', 'restaurant', 'workplace_office', 'hospital_waiting_room', 'school_corridor', 'outdoor_park', 'bar', 'hotel_lobby', 'online_video_call', 'place_of_worship', 'competition_venue']",Physical location of the conversation (对话发生的物理位置)
+information_asymmetry_type,"['A_has_hidden_information', 'B_has_hidden_information', 'mutual_incomplete_information', 'false_belief_by_A', 'false_belief_by_B', 'mutual_misunderstanding', 'no_asymmetry']",Type of information asymmetry between A and B (A与B之间的信息不对称类型；no_asymmetry表示双方信息对称，ToM张力来自belief/desire/intention差异)
+
+# ============================================
+# Person A Attributes (Person A)
+# ============================================
+person_a_name,"['Alex', 'Jordan', 'Taylor', 'Morgan', 'Casey', 'Riley', 'Avery', 'Quinn', 'Sage', 'Rowan', 'Jamie', 'Skylar', 'Cameron', 'Dakota', 'Emerson', 'Finley', 'Harper', 'Hayden', 'Kendall', 'Logan']",Gender-neutral names for Person A
+person_a_mbti,"['INTJ', 'INTP', 'ENTJ', 'ENTP', 'INFJ', 'INFP', 'ENFJ', 'ENFP', 'ISTJ', 'ISFJ', 'ESTJ', 'ESFJ', 'ISTP', 'ISFP', 'ESTP', 'ESFP']",MBTI personality type of Person A, randomly sampled (Person A的MBTI人格类型，随机采样)
+person_a_social_goal,"['obtain_resource_or_outcome', 'seek_emotional_validation', 'defend_position_or_reputation', 'establish_or_test_relationship', 'disclose_sensitive_information', 'conceal_information_or_intention', 'influence_others_belief', 'resolve_conflict_or_misunderstanding', 'seek_advice_or_decision_support', 'assert_autonomy_or_values']",Person A's social goal in this conversation (Person A在对话中的社交目标)
+
+# ============================================
+# Person B Attributes (Person B)
+# ============================================
+person_b_name,"['Sam', 'Drew', 'Blake', 'Reese', 'Parker', 'Peyton', 'Charlie', 'Frankie', 'Jesse', 'River', 'Phoenix', 'Kai', 'Micah', 'Ari', 'Ellis', 'Marlowe', 'Sutton', 'Wren', 'Lennox', 'Shiloh']",Gender-neutral names for Person B
+person_b_mbti,"['INTJ', 'INTP', 'ENTJ', 'ENTP', 'INFJ', 'INFP', 'ENFJ', 'ENFP', 'ISTJ', 'ISFJ', 'ESTJ', 'ESFJ', 'ISTP', 'ISFP', 'ESTP', 'ESFP']",MBTI personality type of Person B, randomly sampled (Person B的MBTI人格类型，随机采样)
+person_b_social_goal,"['obtain_resource_or_outcome', 'seek_emotional_validation', 'defend_position_or_reputation', 'establish_or_test_relationship', 'disclose_sensitive_information', 'conceal_information_or_intention', 'influence_others_belief', 'resolve_conflict_or_misunderstanding', 'seek_advice_or_decision_support', 'assert_autonomy_or_values']",Person B's social goal in this conversation (Person B在对话中的社交目标)
+
+# ============================================
+# Relationship Attributes (关系属性)
+# ============================================
+relationship_closeness,"['very_close', 'close', 'moderately_close', 'developing_closeness', 'distant', 'strained']",Degree of emotional closeness (情感亲密程度)
+power_dynamic,"['equal', 'slightly_unequal', 'mentor_mentee', 'authority_subordinate']",Power dynamic in relationship (关系中的权力动态)
+
